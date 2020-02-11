@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
 
 	"github.com/nasjp/ginclone"
@@ -9,14 +9,23 @@ import (
 
 func main() {
 	r := ginclone.New()
-	r.GET("/", func(w http.ResponseWriter, req *http.Request) {
-		fmt.Fprintf(w, "URL.Path = %q\n", req.URL.Path)
-	})
 
 	r.GET("/hello", func(w http.ResponseWriter, req *http.Request) {
-		for k, v := range req.Header {
-			fmt.Fprintf(w, "Header[%q] = %q\n", k, v)
-		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]string{"hello": "world"})
+	})
+
+	r.GET("/users", func(w http.ResponseWriter, req *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode([]struct {
+			Name string `json:"name"`
+			Sex  string `json:"sex"`
+		}{
+			{"Luke Skywalker", "male"},
+			{"Leia Organa", "female"},
+			{"Han Solo", "male"},
+			{"Chewbacca", "male"},
+		})
 	})
 
 	r.Run(":6969")
