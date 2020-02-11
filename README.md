@@ -1,6 +1,6 @@
 [![Actions Status](https://github.com/nasjp/ginclone/workflows/CI/badge.svg)](https://github.com/nasjp/ginclone/actions)
 
-# Gin Web Framework Clone
+# Clone of Gin Web Framework
 
 ```sh
 go run example/example.go
