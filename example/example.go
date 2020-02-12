@@ -10,23 +10,26 @@ import (
 func main() {
 	r := ginclone.New()
 
-	r.GET("/hello", func(w http.ResponseWriter, req *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]string{"hello": "world"})
-	})
-
-	r.GET("/users", func(w http.ResponseWriter, req *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode([]struct {
-			Name string `json:"name"`
-			Sex  string `json:"sex"`
-		}{
-			{"Luke Skywalker", "male"},
-			{"Leia Organa", "female"},
-			{"Han Solo", "male"},
-			{"Chewbacca", "male"},
-		})
-	})
+	r.GET("/hello", HelloWorldHandler)
+	r.GET("/users", GetUsersHandler)
 
 	r.Run(":6969")
+}
+
+func HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"hello": "world"})
+}
+
+func GetUsersHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode([]struct {
+		Name string `json:"name"`
+		Sex  string `json:"sex"`
+	}{
+		{"Luke Skywalker", "male"},
+		{"Leia Organa", "female"},
+		{"Han Solo", "male"},
+		{"Chewbacca", "male"},
+	})
 }
